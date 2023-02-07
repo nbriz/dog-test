@@ -1,0 +1,68 @@
+<script>
+  
+  let audio
+  let wins = []
+  let markers = [
+    { time: 1.885555, open: false },
+		{ time: 1.992199, open: false },
+		{ time: 2.480748, open: false },
+		{ time: 3.049183, open: false },
+		{ time: 3.617596, open: false }
+  ]
+  
+  async function newDog (i) {
+    const res = await fetch('https://dog.ceo/api/breeds/image/random')
+    const json = await res.json()
+    // const img = document.createElement('img')
+    // img.src = json.message
+    // img.style.position = 'absolute'
+    // img.style.width = '400px'
+    // img.style.left = Math.random() * window.innerWidth + 'px'
+    // img.style.top = Math.random() * window.innerHeight + 'px'
+    // document.body.appendChild(img)
+    const s = 400
+    const x = window.screen.width / 2 - s / 2
+    const y = 0
+    const w = window.open(json.message, `doggo${i}`, `left=${x}, top=${y}, width=${s}, height=${s}`)
+    wins.push(w)
+  }
+  
+  function checkMarkers () {
+    for (let i = 0; i < markers.length; i++) {
+			const m = markers[i]
+      if (audio.currentTime > m.time && !m.open) {
+        m.open = true
+        newDog(i)
+      }
+    }
+  }
+
+  function setup () {
+    audio = document.createElement('audio')
+    audio.src = 'https://upload.wikimedia.org/wikipedia/commons/5/59/Op_dog%2C_Zion%2C_ser_du_ej.ogg'
+    audio.controls = true
+    document.body.appendChild(audio)
+    audio.addEventListener('timeupdate', checkMarkers)
+  }
+  
+  function draw () {
+    requestAnimationFrame(draw)
+    wins.forEach(w => {
+      const r = window.screen.height / 4
+      const cx = window.screen.width / 2
+      const cy = window.screen.height / 2
+      const x = Math.sin(Date.now() * 0.003) * r + cx
+      const y = Math.cos(Date.now() * 0.003) * r + cy
+      w.moveTo(x, y)
+    })
+  }
+  
+  function test () {
+    console.log(audio.currentTime)
+  }
+
+  window.addEventListener('load', setup)
+  window.addEventListener('load', draw)
+  window.addEventListener('keypress', test)
+
+</script>
