@@ -11,8 +11,8 @@
   ]
   
   async function newDog (i) {
-    const res = await fetch('https://dog.ceo/api/breeds/image/random')
-    const json = await res.json()
+    // const res = await fetch('https://dog.ceo/api/breeds/image/random')
+    // const json = await res.json()
     // const img = document.createElement('img')
     // img.src = json.message
     // img.style.position = 'absolute'
@@ -20,10 +20,11 @@
     // img.style.left = Math.random() * window.innerWidth + 'px'
     // img.style.top = Math.random() * window.innerHeight + 'px'
     // document.body.appendChild(img)
+    const url = `cat${i}.jpg`
     const s = 400
     const x = window.screen.width / 2 - s / 2
     const y = 0
-    const w = window.open(json.message, `doggo${i}`, `left=${x}, top=${y}, width=${s}, height=${s}`)
+    const w = window.open(url, `doggo${i}`, `left=${x}, top=${y}, width=${s}, height=${s}`)
     wins.push(w)
   }
   
